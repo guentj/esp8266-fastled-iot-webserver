@@ -1697,7 +1697,7 @@ void pride()
 
         uint16_t pixelnumber = i;
 #if DEVICE_TYPE == 4
-        pixelnumber = ((LEAFCOUNT * 3) - 1) - pixelnumber;
+        pixelnumber = ((LEAFCOUNT * 6) - 1) - pixelnumber;
         for (int i2 = 0; i2 < (PIXELS_PER_LEAF / 6); i2++)
         {
             nblend(leds[pixelnumber * (PIXELS_PER_LEAF / 6) + i2], newcolor, 64);
@@ -3307,7 +3307,7 @@ void CentralVisualizer()
 void ShiftLedsCenter(int shiftAmount)
 {
 #if DEVICE_TYPE == 4
-    shiftAmount *= (PIXELS_PER_LEAF / 3);
+    shiftAmount *= (PIXELS_PER_LEAF / 6);
 #endif
     for (int cnt = 0; cnt < shiftAmount; cnt++)
     {
