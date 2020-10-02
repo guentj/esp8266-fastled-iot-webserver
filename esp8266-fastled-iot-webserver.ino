@@ -55,7 +55,7 @@ extern "C" {
 
 /*######################## MAIN CONFIG ########################*/
 #define LED_TYPE            WS2812B                     // You might also use a WS2811 or any other strip that is Fastled compatible 
-#define DATA_PIN            D6                          // Be aware: the pin mapping might be different on boards like the NodeMCU
+#define DATA_PIN            D5                          // Be aware: the pin mapping might be different on boards like the NodeMCU
 //#define CLK_PIN             D5                        // Only required when using 4-pin SPI-based LEDs
 #define CORRECTION          UncorrectedColor            // If colors are weird use TypicalLEDStrip
 #define COLOR_ORDER         GRB                         // Change this if colors are swapped (in my case, red was swapped with green)
@@ -125,8 +125,8 @@ extern "C" {
     #define LEDS_PER_LINE 10            // Amount of led pixel per single led strip piece
 
 #elif DEVICE_TYPE == 4              // Nanoleafs
-    #define LEAFCOUNT 20                // Amount of triangles
-    #define PIXELS_PER_LEAF 27         // Amount of LEDs inside 1x Tringle
+    #define LEAFCOUNT 18                // Amount of triangles
+    #define PIXELS_PER_LEAF 32         // Amount of LEDs inside 1x Tringle
 
 #elif DEVICE_TYPE == 5              // Animated Logos
     // Choose your logo below, remove the comment in front of your design
@@ -335,7 +335,7 @@ if you have connected the ring first it should look like this: const int twpOffs
 
 #elif DEVICE_TYPE == 4
     #define NUM_LEDS (PIXELS_PER_LEAF * LEAFCOUNT)
-    #define PACKET_LENGTH (LEAFCOUNT * 3)
+    #define PACKET_LENGTH (LEAFCOUNT * 6)
     #define BAND_GROUPING    1
 
 #elif VISUALIZER_TYPE == 5
@@ -1565,12 +1565,12 @@ void confetti()
     // random colored speckles that blink in and fade smoothly
     fadeToBlackBy(leds, NUM_LEDS, 10);
 #if DEVICE_TYPE == 4
-    int pos = random16(LEAFCOUNT * 3);
+    int pos = random16(LEAFCOUNT * 6);
     int val = gHue + random8(64);
-    for (int i = 0; i < (PIXELS_PER_LEAF / 3); i++)
+    for (int i = 0; i < (PIXELS_PER_LEAF / 6); i++)
     {
 
-        leds[i + pos * (PIXELS_PER_LEAF / 3)] += ColorFromPalette(palettes[currentPaletteIndex], val);
+        leds[i + pos * (PIXELS_PER_LEAF / 6)] += ColorFromPalette(palettes[currentPaletteIndex], val);
     }
 #else
     int pos = random16(NUM_LEDS);
@@ -1679,7 +1679,7 @@ void pride()
     sHue16 += deltams * beatsin88(400, 5, 9);
     uint16_t brightnesstheta16 = sPseudotime;
 #if DEVICE_TYPE == 4
-    for (uint16_t i = 0; i < (LEAFCOUNT * 3); i++) {
+    for (uint16_t i = 0; i < (LEAFCOUNT * 6); i++) {
 #else
     for (uint16_t i = 0; i < NUM_LEDS; i++) {
 #endif
@@ -1698,9 +1698,9 @@ void pride()
         uint16_t pixelnumber = i;
 #if DEVICE_TYPE == 4
         pixelnumber = ((LEAFCOUNT * 3) - 1) - pixelnumber;
-        for (int i2 = 0; i2 < (PIXELS_PER_LEAF / 3); i2++)
+        for (int i2 = 0; i2 < (PIXELS_PER_LEAF / 6); i2++)
         {
-            nblend(leds[pixelnumber * (PIXELS_PER_LEAF / 3) + i2], newcolor, 64);
+            nblend(leds[pixelnumber * (PIXELS_PER_LEAF / 6) + i2], newcolor, 64);
         }
 #else
         pixelnumber = (NUM_LEDS - 1) - pixelnumber;
@@ -1792,7 +1792,7 @@ uint8_t beatsaw8(accum88 beats_per_minute, uint8_t lowest, uint8_t highest,
 void colorWaves()
 {
 #if DEVICE_TYPE == 4
-    colorwaves(leds, LEAFCOUNT * 3, gCurrentPalette);
+    colorwaves(leds, LEAFCOUNT * 6, gCurrentPalette);
 #else
     colorwaves(leds, NUM_LEDS, gCurrentPalette);
 #endif
@@ -1848,10 +1848,10 @@ void colorwaves(CRGB* ledarray, uint16_t numleds, CRGBPalette16& palette)
 
         uint16_t pixelnumber = i;
 #if DEVICE_TYPE == 4
-        pixelnumber = ((LEAFCOUNT * 3) - 1) - pixelnumber;
-        for (int i2 = 0; i2 < (PIXELS_PER_LEAF / 3); i2++)
+        pixelnumber = ((LEAFCOUNT * 6) - 1) - pixelnumber;
+        for (int i2 = 0; i2 < (PIXELS_PER_LEAF / 6); i2++)
         {
-            nblend(leds[pixelnumber * (PIXELS_PER_LEAF / 3) + i2], newcolor, 128);
+            nblend(leds[pixelnumber * (PIXELS_PER_LEAF / 6) + i2], newcolor, 128);
         }
 #else
         pixelnumber = (numleds - 1) - pixelnumber;
@@ -3346,9 +3346,9 @@ void SendLedsCenter(CHSV c)
     if ((LEDS_PER_LINE % 2) == 0) ColorSingleRing((LEDS_PER_LINE / 2) - 1, c);
     ColorSingleRing(LEDS_PER_LINE / 2.0, c);
 #elif DEVICE_TYPE == 4
-    int p = (LEAFCOUNT * 3) / 2.0;
+    int p = (LEAFCOUNT * 6) / 2.0;
     ColorSingleNanoleafCorner(p, c);
-    if (((LEAFCOUNT * 3) % 2) == 0) ColorSingleNanoleafCorner(p-1, c);
+    if (((LEAFCOUNT * 6 % 2) == 0) ColorSingleNanoleafCorner(p-1, c);
 #else
     if ((NUM_LEDS % 2) == 0)
     {
@@ -3404,7 +3404,7 @@ void ShiftLeds(int shiftAmount)
     for (int i = LEDS_PER_LINE - 1; i >= cnt; i--)
         ColorSingleRing(i,leds[i-cnt]);
 #elif DEVICE_TYPE == 4
-    cnt *= (PIXELS_PER_LEAF / 3);
+    cnt *= (PIXELS_PER_LEAF / 6);
     for (int i = NUM_LEDS - 1; i >= cnt; i--) {
         leds[i] = leds[i - cnt];
     }
