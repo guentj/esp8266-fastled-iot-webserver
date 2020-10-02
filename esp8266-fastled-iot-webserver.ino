@@ -55,18 +55,18 @@ extern "C" {
 
 /*######################## MAIN CONFIG ########################*/
 #define LED_TYPE            WS2812B                     // You might also use a WS2811 or any other strip that is Fastled compatible 
-#define DATA_PIN            D3                          // Be aware: the pin mapping might be different on boards like the NodeMCU
+#define DATA_PIN            D6                          // Be aware: the pin mapping might be different on boards like the NodeMCU
 //#define CLK_PIN             D5                        // Only required when using 4-pin SPI-based LEDs
 #define CORRECTION          UncorrectedColor            // If colors are weird use TypicalLEDStrip
 #define COLOR_ORDER         GRB                         // Change this if colors are swapped (in my case, red was swapped with green)
-#define MILLI_AMPS          10000                       // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
+#define MILLI_AMPS          30000                       // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 #define VOLTS               5                           // Voltage of the Power Supply
 
 //#define REMOVE_VISUALIZATION          // remove the comment to completly disable all udp-based visualization patterns
 
-#define HOSTNAME "LEDs"                 // Name that appears in your network, don't use whitespaces, use "-" instead
+#define HOSTNAME "Hexaleaf"                 // Name that appears in your network, don't use whitespaces, use "-" instead
 
-#define DEVICE_TYPE 0                   // The following types are available
+#define DEVICE_TYPE 4                   // The following types are available
 /*
     0: Generic LED-Strip: a regular LED-Strip without any special arrangement (and Infinity Mirror + Bottle Lighting Pad)
         * Easiest: 5V WS2812B LED-Strip:            https://s.click.aliexpress.com/e/_dZ1hCJ7
@@ -125,8 +125,8 @@ extern "C" {
     #define LEDS_PER_LINE 10            // Amount of led pixel per single led strip piece
 
 #elif DEVICE_TYPE == 4              // Nanoleafs
-    #define LEAFCOUNT 12                // Amount of triangles
-    #define PIXELS_PER_LEAF 12          // Amount of LEDs inside 1x Tringle
+    #define LEAFCOUNT 20                // Amount of triangles
+    #define PIXELS_PER_LEAF 27         // Amount of LEDs inside 1x Tringle
 
 #elif DEVICE_TYPE == 5              // Animated Logos
     // Choose your logo below, remove the comment in front of your design
