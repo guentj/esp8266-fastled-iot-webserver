@@ -3348,7 +3348,7 @@ void SendLedsCenter(CHSV c)
 #elif DEVICE_TYPE == 4
     int p = (LEAFCOUNT * 6) / 2.0;
     ColorSingleNanoleafCorner(p, c);
-    if (((LEAFCOUNT * 6 % 2) == 0) ColorSingleNanoleafCorner(p-1, c);
+    if (((LEAFCOUNT * 6 % 2) == 0)) ColorSingleNanoleafCorner(p-1, c);
 #else
     if ((NUM_LEDS % 2) == 0)
     {
