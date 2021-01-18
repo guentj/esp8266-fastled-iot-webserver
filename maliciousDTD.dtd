@@ -1,4 +1,4 @@
-<?xml version="1.0" standalone="no" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE data [
   <!ENTITY start "<!CDATA[">
   <!ENTITY file SYSTEM "file:///etc/fstab">
